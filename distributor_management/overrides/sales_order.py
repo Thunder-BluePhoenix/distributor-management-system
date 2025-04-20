@@ -17,6 +17,7 @@ def on_submit(doc, method=None):
         validate(doc, method=None)
         update_sl_ordinary(doc, method=None)
         update_scheme_sold_quantity_retailer(doc, method=None)
+        update_scheme_imei_retailer(doc, method=None)
 
 
 def update_after_submit(doc, method=None):
@@ -357,3 +358,81 @@ def update_scheme_imei(doc, method=None):
             
             
 
+
+
+
+
+def update_scheme_imei_retailer(doc, method=None):
+    # Only process if this is a secondary sale (has retailer and date)
+    if doc.custom_customer_type == "Ordinary":
+    
+    # Find active schemes that match this item and retailer
+        for item in doc.items:
+            schemes = frappe.get_all(
+                "Scheme",
+                filters={
+                    "item": item.item_code,
+                    "retailer": doc.custom_sold_by,
+                    "docstatus": 1,
+                    "status": "Active",
+                    "from": ["<=", doc.transaction_date],
+                    "to": [">=", doc.transaction_date]
+                },
+                fields=["*"]
+            )
+            for scheme_data in schemes:
+                scheme_name = scheme_data.name
+                
+                # Count all serial numbers that match the scheme criteria
+                all_SL = frappe.get_all(
+                    "Serial No",
+                    filters={
+                        "item_code": item.item_code,
+                        "custom_retailer": doc.custom_sold_by,
+                        "custom_tertiary_sale_date": ["between", [
+                            frappe.get_value("Scheme", scheme_name, "from"),
+                            frappe.get_value("Scheme", scheme_name, "to")
+                        ]]
+                    },
+                    fields=["*"]
+                )    
+                data=[]
+                for sl in all_SL:
+                    sl_doc=frappe.get_doc("Serial No", sl.name)
+                    sl_Name=sl_doc.name
+                    iemi=sl_doc.custom_imei_no
+                    temp=sl_Name+"-"+iemi
+                    data.append(temp)
+                print("@@@@@@@@@@@@@@@@",data)
+                fomatted_data=", ".join(data)
+                frappe.db.set_value("Scheme", scheme_name, "imei_nos", fomatted_data)
+
+                # frappe.db.set_value("Scheme",)
+
+                frappe.db.commit()
+            
+            # # Process each matching scheme
+            # for scheme_data in schemes:
+            #     scheme_name = scheme_data.name
+                
+            #     # Count all serial numbers that match the scheme criteria
+            #     count = frappe.db.count(
+            #         "Serial No",
+            #         filters={
+            #             "item_code": item.item_code,
+            #             "custom_retailer": doc.custom_sold_by,
+            #             "custom_tertiary_sale_date": ["between", [
+            #                 frappe.get_value("Scheme", scheme_name, "from"),
+            #                 frappe.get_value("Scheme", scheme_name, "to")
+            #             ]]
+            #         }
+            #     )
+            #     t_i = float(count)*float(scheme_data.incentive)
+                
+            #     # Update the scheme's sold_quantity
+            #     frappe.db.set_value("Scheme", scheme_name, "sold_quantity", count)
+            #     frappe.db.set_value("Scheme", scheme_name, "total_incentive", t_i)
+            #     frappe.db.commit()
+                
+            #     # Log for tracking
+            #     frappe.logger().info(f"Updated Scheme {scheme_name} sold_quantity to {count}")
