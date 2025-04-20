@@ -4,4 +4,4 @@ Nothing Phone distributor Management system
 
 #### License
 
-mit
+mit# distributor-management-system
