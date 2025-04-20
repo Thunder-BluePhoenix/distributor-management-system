@@ -43,7 +43,7 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"Sales Order" : "public/js/sales_order.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -141,10 +141,23 @@ app_license = "mit"
 # 	"*": {
 # 		"on_update": "method",
 # 		"on_cancel": "method",
-# 		"on_trash": "method"
+# 		"on_trash": "method"update_scheme_sold_quantity_retailer_distributor
 # 	}
 # }
-
+doc_events = {
+                "Item":{
+                    "before_save":"distributor_management.overrides.item.before_save_item"
+                },
+                "Sales Order":{
+                    "on_submit":"distributor_management.overrides.sales_order.on_submit",
+                    "on_update_after_submit": "distributor_management.overrides.sales_order.update_after_submit",
+                },
+                # "Serial No":{
+                #     "before_save": {"distributor_management.overrides.sales_order.update_scheme_sold_quantity_retailer",
+                #                     "distributor_management.overrides.sales_order.update_scheme_sold_quantity_retailer_distributor"
+                #     }
+                # }
+}
 # Scheduled Tasks
 # ---------------
 

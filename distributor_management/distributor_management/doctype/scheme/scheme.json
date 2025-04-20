@@ -1,0 +1,210 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-04-20 14:59:51.652800",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_na4p",
+  "from",
+  "for",
+  "distributor",
+  "retailer",
+  "column_break_ccqx",
+  "to",
+  "item",
+  "status",
+  "section_break_zmgg",
+  "incentive",
+  "column_break_lrqw",
+  "currency",
+  "section_break_mqme",
+  "target_quantity",
+  "sold_quantity",
+  "column_break_osln",
+  "total_incentive",
+  "imei_nos",
+  "more_info_tab",
+  "amended_from",
+  "section_break_egjr",
+  "naming_series"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_na4p",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Scheme",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "from",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "From",
+   "reqd": 1
+  },
+  {
+   "fieldname": "for",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "For",
+   "options": "\nDistributor\nRetailer",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval: doc.for === \"Distributor\";",
+   "fieldname": "distributor",
+   "fieldtype": "Link",
+   "label": "Distributor",
+   "link_filters": "[[\"Customer\",\"custom_sales_partner_type\",\"=\",\"Distributor\"]]",
+   "mandatory_depends_on": "eval: doc.for === \"Distributor\";",
+   "options": "Customer"
+  },
+  {
+   "depends_on": "eval: doc.for === \"Retailer\";",
+   "fieldname": "retailer",
+   "fieldtype": "Link",
+   "label": "Retailer",
+   "link_filters": "[[\"Customer\",\"custom_sales_partner_type\",\"=\",\"Retailer\"]]",
+   "mandatory_depends_on": "eval: doc.for === \"Retailer\";",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "column_break_ccqx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "To",
+   "reqd": 1
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nActive\nIn-active\nExpired"
+  },
+  {
+   "fieldname": "section_break_zmgg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "target_quantity",
+   "fieldtype": "Float",
+   "label": "Target Quantity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_lrqw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "incentive",
+   "fieldtype": "Currency",
+   "label": "Incentive",
+   "options": "currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "more_info_tab",
+   "fieldtype": "Tab Break",
+   "label": "More Info"
+  },
+  {
+   "fieldname": "section_break_egjr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "SCH-.MM.-.YYYY.-"
+  },
+  {
+   "fieldname": "section_break_mqme",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "sold_quantity",
+   "fieldtype": "Float",
+   "label": "Sold Quantity",
+   "read_only": 1
+  },
+  {
+   "default": "INR",
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_osln",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "total_incentive",
+   "fieldtype": "Currency",
+   "label": "Total Incentive",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "imei_nos",
+   "fieldtype": "Small Text",
+   "label": "IMEI NOS",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-04-21 01:01:01.830417",
+ "modified_by": "Administrator",
+ "module": "Distributor Management",
+ "name": "Scheme",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
