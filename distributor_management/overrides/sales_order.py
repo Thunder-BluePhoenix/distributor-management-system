@@ -89,6 +89,8 @@ def create_serials(doc, method=None):
                             row = doc.append("custom_item_info", {})
                             row.item_code = item_doc.item_code
                             row.serial_no = serial.name
+                            row.qty = 1
+                            row.uom = item_doc.stock_uom
                             
 
 
